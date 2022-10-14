@@ -10,6 +10,8 @@
  */
 
 let Note = require('mongoose').model('Note');
+let User = require('mongoose').model('User');
+let Task = require('mongoose').model('Task');
 
 exports.list = (req, res) => {
 
@@ -153,8 +155,32 @@ exports.getDefault = (req, res) => {
   res.send({success: true, defaultObj: Note.getDefault()});
 }
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
+  await User.findOne({apiToken: req.headers.token}).exec(async function(err, user) {
+    if(err) {
+      res.status(403);
+      res.send({success: false, message: "UNAUTHORIZED - INVALID TOKEN"});
+    }
 
+    await Task.findById(req.body._task).exec(async function(err, task) {
+      if(err) {
+        res.status(404);
+        res.send({success: false, message: "NOT FOUND - INVALID TASK ID"});
+      }
+
+      const {name, content} = req.body;
+      const _user = user._id
+      const _task = req.body._task
+      const _flow = task._flow
+
+      const note = new Note({_user, _task, _flow, name, content: 'test'});
+      note.save();
+
+      console.log(note)
+
+      res.send({ success: true, message: 'Created note', note });
+    })
+  });
 }
 
 exports.update = (req, res) => {

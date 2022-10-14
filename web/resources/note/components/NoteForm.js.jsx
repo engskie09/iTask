@@ -21,7 +21,7 @@ const  NoteForm = ({
 }) => {
 
   // set the button text
-  const buttonText = formType === "create" ? "Create Note" : "Update Note";
+  const buttonText = formType === "create" ? "Add Comment" : "Update Note";
 
   // set the form header
   const header = formTitle ? <div className="formHeader"><h2> {formTitle} </h2><hr/></div> : <div/>;
@@ -38,11 +38,11 @@ const  NoteForm = ({
               name="note.name"
               placeholder="Name (required)"
               required={true}
-              value={note.name}
+              value={note.name || ''}
             />
             <div className="input-group">
               <div className="yt-row space-between">
-                <Link className="yt-btn link" to={cancelLink}>Cancel</Link>
+                {/**<Link className="yt-btn link" to={cancelLink}>Cancel</Link> */}
                 <button className="yt-btn " type="submit" > {buttonText} </button>
               </div>
             </div>

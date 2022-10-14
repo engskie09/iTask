@@ -53,16 +53,16 @@ noteSchema.statics.getDefault = () => {
 const Note = mongoose.model('Note', noteSchema);
 
 
-// // note model methods
-// function createDefaults() {
-//   Note.find({}).exec(function(err, notes) {
-//     if(notes.length == 0) {
-//       Note.create({
-//         name: "Sample Note Name!"
-//       });
-//       logger.info("created initial note defaults");
-//     }
-//   });
-// }
-//
-// exports.createDefaults = createDefaults;
+// note model methods
+function createDefaults() {
+  Note.find({}).exec(function(err, notes) {
+    if(notes.length == 0) {
+      Note.create({
+        name: "Sample Note Name!"
+      });
+      logger.info("created initial note defaults");
+    }
+  });
+}
+
+exports.createDefaults = createDefaults;

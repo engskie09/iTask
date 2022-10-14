@@ -80,6 +80,7 @@ class SingleTask extends Binder {
     const { defaultNote, dispatch, match } = this.props;
     let newNote = {...this.state.note}
     newNote._task = match.params.taskId;
+
     dispatch(noteActions.sendCreateNote(newNote)).then(noteRes => {
       if(noteRes.success) {
         dispatch(noteActions.invalidateList('_task', match.params.taskId));
@@ -173,10 +174,10 @@ class SingleTask extends Binder {
               <div>
                 <NoteForm
                   note={note}
-                  cancelLink="/"
+                  cancelLink=""
                   cancelAction={() => this.setState({showNoteForm: false, note: _.cloneDeep(defaultNote.obj)})}
                   formHelpers={formHelpers}
-                  formTitle="Create Note"
+                  formTitle="Your Comment"
                   formType="create"
                   handleFormChange={this._handleFormChange}
                   handleFormSubmit={this._handleNoteSubmit}
@@ -185,7 +186,7 @@ class SingleTask extends Binder {
               : 
               <div>
                 <br></br>
-                <button className="yt-btn" style={{marginTop: 10}} onClick={() => this.setState({showNoteForm: true})}>Add new note</button>
+                <button className="yt-btn" style={{marginTop: 10}} onClick={() => this.setState({showNoteForm: true})}>Comment</button>
            
               </div> }
           </div>
