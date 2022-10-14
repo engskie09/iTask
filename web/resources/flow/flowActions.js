@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /**
  * All Flow CRUD actions
  *
@@ -322,6 +323,7 @@ export const fetchListIfNeeded = (...listArgs) => (dispatch, getState) => {
   if(listArgs.length === 0) {
     // If no arguments passed, make the list we want "all"
     listArgs = ["all"];
+    
   }
   if(shouldFetchList(getState(), listArgs)) {
     return dispatch(fetchList(...listArgs));

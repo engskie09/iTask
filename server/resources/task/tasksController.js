@@ -185,7 +185,11 @@ exports.getDefault = (req, res) => {
 }
 
 exports.create = (req, res) => {
+  const {name, description, open, complete, _flow} = req.body;
+  const task = new Task({name, description, open, complete, _flow});
+  task.save();
 
+  res.send({ success: true, message: 'Created task', data: task });
 }
 
 exports.update = (req, res) => {

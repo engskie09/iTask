@@ -1,3 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable no-case-declarations */
+/* eslint-disable linebreak-style */
 /**
  * Build the Flow store
  *

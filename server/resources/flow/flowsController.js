@@ -12,7 +12,18 @@
 let Flow = require('mongoose').model('Flow');
 
 exports.list = (req, res) => {
+  /** return all list of flows */
+  //res.send(await Flow.find({}))
 
+  Flow.find({}).exec((err, flows) => {
+    if(err || !flows) {
+      logger.error("ERROR:");
+      logger.info(err);
+      res.send({ success: false, message: err });
+    } else {
+      res.send({ success: true, flows: flows });
+    }
+  });
 }
 
 exports.listByValues = (req, res) => {
@@ -153,8 +164,12 @@ exports.getDefault = (req, res) => {
   res.send({success: true, defaultObj: Flow.getDefault()});
 }
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
+  const {name, description} = req.body;
+  const flow = new Flow({name, description});
+  flow.save();
 
+  res.send({ success: true, message: 'Created flow', data: flow });
 }
 
 exports.update = (req, res) => {

@@ -1,3 +1,7 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable linebreak-style */
+/* eslint-disable no-nested-ternary */
+
 /**
  * View component for /flows
  *
@@ -26,6 +30,9 @@ import FlowListItem from '../components/FlowListItem.js.jsx';
 class FlowList extends Binder {
   constructor(props) {
     super(props);
+    this.state = {
+      flowStore: props.flowStore
+    }
   }
 
   componentDidMount() {
