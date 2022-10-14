@@ -65,14 +65,16 @@ class UpdateTask extends Binder {
   }
 
   _handleFormSubmit(e) {
-    const { dispatch, history } = this.props;
+    const { dispatch, history, match } = this.props;
     e.preventDefault();
     dispatch(taskActions.sendUpdateTask(this.state.task)).then(taskRes => {
       if(taskRes.success) {
-        history.push(`/tasks/${taskRes.item._id}`)
+        dispatch(taskActions.invalidateSelected());
+        history.push(`/tasks/${taskRes.item._id}`);
       } else {
         alert("ERROR - Check logs");
       }
+      
     });
   }
 

@@ -169,11 +169,14 @@ exports.create = async (req, res) => {
   const flow = new Flow({name, description});
   flow.save();
 
-  res.send({ success: true, message: 'Created flow', data: flow });
+  res.send({ success: true, message: 'Created flow' });
 }
 
-exports.update = (req, res) => {
-  
+exports.update = async (req, res) => {
+  const {name, description} = req.body;
+  await Flow.findById(req.params.id).update({name, description})
+
+  res.send({ success: true, message: 'Updated flow', flow: { _id: req.params.id } });
 }
 
 exports.delete = (req, res) => {

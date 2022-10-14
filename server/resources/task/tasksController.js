@@ -192,8 +192,11 @@ exports.create = (req, res) => {
   res.send({ success: true, message: 'Created task', data: task });
 }
 
-exports.update = (req, res) => {
-  
+exports.update = async (req, res) => {
+  const {name, description} = req.body;
+  await Task.findById(req.params.id).update({name, description})
+
+  res.send({ success: true, message: 'Updated task', task: { _id: req.params.id } });
 }
 
 exports.delete = (req, res) => {

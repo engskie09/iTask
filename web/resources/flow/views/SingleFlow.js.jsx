@@ -1,3 +1,9 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-shadow */
+/* eslint-disable no-undef */
+/* eslint-disable linebreak-style */
 /**
  * View component for /flows/:flowId
  *
@@ -156,6 +162,8 @@ class SingleFlow extends Binder {
                     <li key={task._id + i}>
                       <h3>{task.name}</h3>
                       <p>{task.description}</p>
+                      <Link className="yt-btn x-small bordered" to={`/tasks/${task._id}`}> Comments </Link>
+                      
                     </li>
                   )}
                 </ul>
@@ -174,8 +182,11 @@ class SingleFlow extends Binder {
                 />
               </div>
               : 
-              <button className="yt-btn" onClick={() => this.setState({showTaskForm: true})}>Add new task</button>
-            }
+              <div>
+                <br></br>
+                <button className="yt-btn" style={{marginTop: 10}} onClick={() => this.setState({showTaskForm: true})}>Add new task</button>
+           
+              </div> }
           </div>
         }
       </FlowLayout>

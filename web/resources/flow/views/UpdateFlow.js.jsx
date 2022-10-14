@@ -69,7 +69,8 @@ class UpdateFlow extends Binder {
     e.preventDefault();
     dispatch(flowActions.sendUpdateFlow(this.state.flow)).then(flowRes => {
       if(flowRes.success) {
-        history.push(`/flows/${flowRes.item._id}`)
+        dispatch(flowActions.invalidateSelected());
+        history.push(`/flows/${flowRes.item._id}`);
       } else {
         alert("ERROR - Check logs");
       }
