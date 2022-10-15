@@ -40,6 +40,8 @@ exports.listByValues = (req, res) => {
 }
 
 exports.listByRefs = (req, res) => {
+  // TODOOOO HERE
+  console.log('here?')
   /**
    * NOTE: This let's us query by ANY string or pointer key by passing in a refKey and refId
    */
@@ -168,16 +170,14 @@ exports.create = async (req, res) => {
         res.send({success: false, message: "NOT FOUND - INVALID TASK ID"});
       }
 
-      const {name, content} = req.body;
+      const {content} = req.body;
       const _user = user._id
       const _task = req.body._task
       const _flow = task._flow
 
-      const note = new Note({_user, _task, _flow, name, content: 'test'});
+      const note = new Note({_user, _task, _flow, content});
       note.save();
-
-      console.log(note)
-
+      
       res.send({ success: true, message: 'Created note', note });
     })
   });
