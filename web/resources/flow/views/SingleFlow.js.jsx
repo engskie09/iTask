@@ -175,7 +175,8 @@ class SingleFlow extends Binder {
                   {taskListItems.map((task, i) =>
                     task.complete ? <span key={task._id + i}></span>:
                     <li key={task._id + i}>
-                      <h3><input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete} style={{width: '20px', height: '20px'}}></input>{task.name}</h3>
+                      <h3><input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete}
+                      disabled={task.complete && task.status !== 'open' } style={{width: '20px', height: '20px'}}></input>{task.name}</h3>
                       <p>{task.description}</p>
                       <Link className="yt-btn x-small bordered" to={`/tasks/${task._id}`}> Comments </Link>
                     </li>
@@ -188,7 +189,8 @@ class SingleFlow extends Binder {
                   task.complete ?
                     <li key={task._id + i}>
                       <s>
-                        <input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete}></input>
+                        <input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete}
+                        disabled={task.complete && task.status !== 'open' }></input>
                         {task.name}
                       </s>              
                     </li>:

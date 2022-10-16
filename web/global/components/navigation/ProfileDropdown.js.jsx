@@ -63,10 +63,10 @@ class ProfileDropdown extends Binder {
               </li>
               <li><Link to="/user/profile" onClick={()=> close()}>My Profile </Link></li>
 
-              { user.roles && user.roles.indexOf('admin') > -1
+              {/* user.roles && user.roles.indexOf('admin') > -1
                 ?
                 <li><Link to="/admin" target="_blank" onClick={()=> close()}> Go to Admin <i className="fa fa-external-link"/> </Link></li>
-                : ''
+                : ''*/
               }
               <li role="separator" className="-divider"/>
               <li><a onClick={this._logout}>Logout</a></li>

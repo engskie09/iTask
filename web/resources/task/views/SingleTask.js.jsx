@@ -192,7 +192,8 @@ class SingleTask extends Binder {
               :
               <span></span>
             }
-            <h1><input onChange={(e) => this.handleTaskComplete(e, selectedTask)} type="checkbox" id="complete" checked={selectedTask.complete} style={{width: '20px', height: '20px'}}></input>
+            <h1><input onChange={(e) => this.handleTaskComplete(e, selectedTask)} type="checkbox" id="complete" checked={selectedTask.complete}
+            disabled={selectedTask.complete && selectedTask.status !== 'open' } style={{width: '20px', height: '20px'}}></input>
              { selectedTask.name }
             </h1>
             <p> { selectedTask.description }</p>
