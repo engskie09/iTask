@@ -13,7 +13,7 @@
 
 // import primary libraries
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ class SingleTask extends Binder {
   constructor(props) {
     super(props);
     this.state = {
-      showNoteForm: false 
+      showNoteForm: true 
       , note: _.cloneDeep(this.props.defaultNote.obj)
       // NOTE: We don't want to actually change the store's defaultItem, just use a copy
       , noteFormHelpers: {}
@@ -163,8 +163,7 @@ class SingleTask extends Binder {
                     <li key={note._id + i}>
                       <h3>{note.name}</h3>
                       <p>{note.description}</p>
-                      <Link className="yt-btn x-small bordered" to={`/notes/${note._id}`}> Comments </Link>
-                      
+                      <p>{JSON.stringify(note)}</p>
                     </li>
                   )}
                 </ul>

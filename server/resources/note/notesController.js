@@ -41,7 +41,6 @@ exports.listByValues = (req, res) => {
 
 exports.listByRefs = (req, res) => {
   // TODOOOO HERE
-  console.log('here?')
   /**
    * NOTE: This let's us query by ANY string or pointer key by passing in a refKey and refId
    */
@@ -61,11 +60,20 @@ exports.listByRefs = (req, res) => {
         query[nextParams.split("/")[i]] = nextParams.split("/")[i+1] === 'null' ? null : nextParams.split("/")[i+1]
       }
     }
-    Note.find(query, (err, notes) => {
+
+    Note.find(query, async (err, notes) => {
+      
+      const userIds = notes.map(x => x._user)
+      const users = await User.find({'_id' : {'$in': userIds}})
+
+      const notesWithCommentor = notes.map((note) => {
+        return {...note._doc, commentor: users.filter(user => String( note._user) === String(user._id))[0]}
+      })
+
       if(err || !notes) {
         res.send({success: false, message: `Error retrieving notes by ${req.params.refKey}: ${req.params.refId}`});
       } else {
-        res.send({success: true, notes})
+        res.send({success: true, notes: notesWithCommentor})
       }
     })
   }

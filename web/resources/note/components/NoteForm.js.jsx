@@ -34,11 +34,11 @@ const  NoteForm = ({
             {header}
             <TextInput
               change={handleFormChange}
-              label="Name"
-              name="note.name"
-              placeholder="Name (required)"
+              label="Message"
+              name="note.content"
+              placeholder="Message (required)"
               required={true}
-              value={note.name || ''}
+              value={note.content || ''}
             />
             <div className="input-group">
               <div className="yt-row space-between">
