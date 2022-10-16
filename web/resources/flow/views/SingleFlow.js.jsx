@@ -191,7 +191,8 @@ class SingleFlow extends Binder {
                       <s>
                         <input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete}
                         disabled={task.complete && task.status !== 'open' }></input>
-                        {task.name}
+                        <Link to={`/tasks/${task._id}`}> {task.name} </Link>
+                        
                       </s>              
                     </li>:
                     <span key={task._id + i}></span>
