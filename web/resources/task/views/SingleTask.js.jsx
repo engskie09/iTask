@@ -16,6 +16,7 @@ import React from 'react';
 import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import moment from 'moment';
 
 // import actions
 import * as taskActions from '../taskActions';
@@ -77,13 +78,14 @@ class SingleTask extends Binder {
 
   _handleNoteSubmit(e) {
     e.preventDefault();
-    const { defaultNote, dispatch, match } = this.props;
+    const { defaultNote, dispatch, match, history } = this.props;
     let newNote = {...this.state.note}
     newNote._task = match.params.taskId;
 
     dispatch(noteActions.sendCreateNote(newNote)).then(noteRes => {
       if(noteRes.success) {
         dispatch(noteActions.invalidateList('_task', match.params.taskId));
+        history.push(`/tasks/${noteRes.match.taskId}`);
         this.setState({
           showNoteForm: false
           , note: _.cloneDeep(defaultNote.obj)
@@ -91,6 +93,20 @@ class SingleTask extends Binder {
       } else {
         alert("ERROR - Check logs");
       }
+    });
+  }
+
+  handleTaskComplete(e, task) {
+    const { dispatch, history, match } = this.props;
+
+    dispatch(taskActions.sendUpdateTaskComplete({_id: task._id, complete: e.target.checked})).then(taskRes => {
+      if(taskRes.success) {
+        dispatch(taskActions.fetchSingleIfNeeded(match.params.taskId));
+        history.push(`/tasks/${match.params.taskId}`);
+      } else {
+        alert("ERROR - Check logs");
+      }
+      
     });
   }
 
@@ -149,7 +165,9 @@ class SingleTask extends Binder {
           (isTaskFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{ opacity: isTaskFetching ? 0.5 : 1 }}>
-            <h1> { selectedTask.name }
+            {JSON.stringify(selectedTask)}
+            <h1><input onChange={(e) => this.handleTaskComplete(e, selectedTask)} type="checkbox" id="complete" checked={selectedTask.complete} style={{width: '20px', height: '20px'}}></input>
+             { selectedTask.name }
             </h1>
             <p> { selectedTask.description }</p>
             <Link className="yt-btn x-small bordered" to={`${this.props.match.url}/update`}> Edit </Link>
@@ -161,9 +179,9 @@ class SingleTask extends Binder {
                 <ul>
                   {noteListItems.map((note, i) =>
                     <li key={note._id + i}>
-                      <h3>{note.name}</h3>
-                      <p>{note.description}</p>
-                      <p>{JSON.stringify(note)}</p>
+                      <h3>{note.commentor.fullName}</h3>
+                      <small><i>{moment(note.created).format('L')} @ {moment(note.created).format('h:mm:ss a')}</i></small>
+                      <p>{note.content}</p>
                     </li>
                   )}
                 </ul>

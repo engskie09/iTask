@@ -196,7 +196,14 @@ exports.update = async (req, res) => {
   const {name, description} = req.body;
   await Task.findById(req.params.id).update({name, description})
 
-  res.send({ success: true, message: 'Updated task', task: { _id: req.params.id } });
+  res.send({ success: true, message: 'Updated task' });
+}
+
+exports.updateComplete = async (req, res) => {
+  const {complete} = req.body;
+  await Task.findById(req.params.id).update({complete})
+
+  res.send({ success: true, message: 'Completed task'});
 }
 
 exports.delete = (req, res) => {

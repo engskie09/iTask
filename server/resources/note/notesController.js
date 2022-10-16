@@ -67,7 +67,9 @@ exports.listByRefs = (req, res) => {
       const users = await User.find({'_id' : {'$in': userIds}})
 
       const notesWithCommentor = notes.map((note) => {
-        return {...note._doc, commentor: users.filter(user => String( note._user) === String(user._id))[0]}
+        const commentor = users.filter(user => String( note._user) === String(user._id))[0]
+
+        return {...note._doc, commentor: {fullName: commentor.firstName + ' ' + commentor.lastName, created: commentor.created}}
       })
 
       if(err || !notes) {

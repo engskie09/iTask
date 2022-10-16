@@ -239,6 +239,14 @@ export function sendUpdateTask(data) {
   }
 }
 
+export function sendUpdateTaskComplete(data) {
+  return dispatch => {
+    dispatch(requestUpdateTask(data))
+    return apiUtils.callAPI(`/api/tasks/${data._id}/complete`, 'PUT', data)
+      .then(json => dispatch(receiveUpdateTask(json)))
+  }
+}
+
 export const REQUEST_DELETE_TASK = "REQUEST_DELETE_TASK";
 function requestDeleteTask(id) {
   return {

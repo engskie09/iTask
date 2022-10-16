@@ -93,6 +93,20 @@ class SingleFlow extends Binder {
     });
   }
 
+  handleTaskComplete(e, task) {
+    const { dispatch, history, match } = this.props;
+
+    dispatch(taskActions.sendUpdateTaskComplete({_id: task._id, complete: e.target.checked})).then(taskRes => {
+      if(taskRes.success) {
+        dispatch(taskActions.invalidateList('_flow', match.params.flowId));
+        history.push(`/flows/${match.params.flowId}`);
+      } else {
+        alert("ERROR - Check logs");
+      }
+      
+    });
+  }
+
   render() {
     const { showTaskForm, task, formHelpers } = this.state;
     const { 
@@ -159,14 +173,28 @@ class SingleFlow extends Binder {
               <div style={{ opacity: isTaskListFetching ? 0.5 : 1 }}>
                 <ul>
                   {taskListItems.map((task, i) =>
+                    task.complete ? <span key={task._id + i}></span>:
                     <li key={task._id + i}>
-                      <h3>{task.name}</h3>
+                      <h3><input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete} style={{width: '20px', height: '20px'}}></input>{task.name}</h3>
                       <p>{task.description}</p>
                       <Link className="yt-btn x-small bordered" to={`/tasks/${task._id}`}> Comments </Link>
-                      
                     </li>
                   )}
                 </ul>
+                <br></br>
+                <div>
+                  <h3>Completed tasks</h3>
+                  {taskListItems.map((task, i) =>
+                  task.complete ?
+                    <li key={task._id + i}>
+                      <s>
+                        <input onChange={(e) => this.handleTaskComplete(e, task)} type="checkbox" checked={task.complete}></input>
+                        {task.name}
+                      </s>              
+                    </li>:
+                    <span key={task._id + i}></span>
+                  )}
+                </div>
               </div>
             }
             { !isNewTaskEmpty && showTaskForm ?

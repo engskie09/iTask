@@ -24,6 +24,7 @@ module.exports = function(router, requireLogin, requireRole) {
 
   // - Update
   router.put('/api/tasks/:id'            , requireLogin(), tasks.update); // must login by default
+  router.put('/api/tasks/:id/complete'            , requireLogin(), tasks.updateComplete); // must login by default
 
   // - Delete
   router.delete('/api/tasks/:id'         , requireRole('admin'), tasks.delete); // must be an 'admin' by default
