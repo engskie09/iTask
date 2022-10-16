@@ -110,6 +110,20 @@ class SingleTask extends Binder {
     });
   }
 
+  handleTaskStatus(status) {
+    const { dispatch, history, match } = this.props;
+
+    dispatch(taskActions.sendUpdateTaskStatus({_id: match.params.taskId, status})).then(taskRes => {
+      if(taskRes.success) {
+        dispatch(taskActions.fetchSingleIfNeeded(match.params.taskId));
+        history.push(`/tasks/${match.params.taskId}`);
+      } else {
+        alert("ERROR - Check logs");
+      }
+      
+    });
+  }
+
   render() {
     const { showNoteForm, note, formHelpers } = this.state;
     const { 
@@ -117,6 +131,7 @@ class SingleTask extends Binder {
       , taskStore
       , match
       , noteStore 
+      , user
     } = this.props;
 
     /**
@@ -165,7 +180,18 @@ class SingleTask extends Binder {
           (isTaskFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{ opacity: isTaskFetching ? 0.5 : 1 }}>
+            {JSON.stringify(user)}
             {JSON.stringify(selectedTask)}
+            {
+              user.roles.includes('admin') && selectedTask.complete && selectedTask.status === 'open' ?
+              <div>
+                <button onClick={() => this.handleTaskStatus('accepted')} className="yt-btn x-small" >Accept</button>
+                &nbsp;
+                <button onClick={() => this.handleTaskStatus('rejected')} className="yt-btn x-small bordered">Reject</button>
+              </div>
+              :
+              <span></span>
+            }
             <h1><input onChange={(e) => this.handleTaskComplete(e, selectedTask)} type="checkbox" id="complete" checked={selectedTask.complete} style={{width: '20px', height: '20px'}}></input>
              { selectedTask.name }
             </h1>
@@ -226,6 +252,7 @@ const mapStoreToProps = (store) => {
     defaultNote: store.note.defaultItem
     , taskStore: store.task
     , noteStore: store.note
+    , user: store.user.loggedIn.user
   }
 }
 

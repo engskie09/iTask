@@ -206,6 +206,13 @@ exports.updateComplete = async (req, res) => {
   res.send({ success: true, message: 'Completed task'});
 }
 
+exports.updateStatus = async (req, res) => {
+  const {status} = req.body;
+  await Task.findById(req.params.id).update({status})
+
+  res.send({ success: true, message: 'Updated task status'});
+}
+
 exports.delete = (req, res) => {
   logger.warn("deleting task");
   Task.findById(req.params.id).remove((err) => {
