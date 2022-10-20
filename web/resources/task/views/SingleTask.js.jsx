@@ -180,8 +180,10 @@ class SingleTask extends Binder {
           (isTaskFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{ opacity: isTaskFetching ? 0.5 : 1 }}>
-            {JSON.stringify(user)}
-            {JSON.stringify(selectedTask)}
+            {//JSON.stringify(user)
+            }
+            {//JSON.stringify(selectedTask)
+            }
             {
               user.roles.includes('admin') && selectedTask.complete && selectedTask.status === 'open' ?
               <div>

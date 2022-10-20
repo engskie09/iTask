@@ -70,7 +70,7 @@ class UpdateTask extends Binder {
     dispatch(taskActions.sendUpdateTask(this.state.task)).then(taskRes => {
       if(taskRes.success) {
         dispatch(taskActions.invalidateSelected());
-        history.push(`/tasks/${taskRes.item._id}`);
+        history.push(`/tasks/${match.params.taskId}`);
       } else {
         alert("ERROR - Check logs");
       }
