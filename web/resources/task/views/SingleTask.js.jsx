@@ -78,14 +78,15 @@ class SingleTask extends Binder {
 
   _handleNoteSubmit(e) {
     e.preventDefault();
-    const { defaultNote, dispatch, match, history } = this.props;
+    const { defaultNote, dispatch, match, history, user } = this.props;
     let newNote = {...this.state.note}
     newNote._task = match.params.taskId;
+    newNote._user = user._id
 
     dispatch(noteActions.sendCreateNote(newNote)).then(noteRes => {
       if(noteRes.success) {
         dispatch(noteActions.invalidateList('_task', match.params.taskId));
-        history.push(`/tasks/${noteRes.match.taskId}`);
+        history.push(`/tasks/${match.params.taskId}`);
         this.setState({
           showNoteForm: false
           , note: _.cloneDeep(defaultNote.obj)
@@ -173,6 +174,8 @@ class SingleTask extends Binder {
 
     const isNewNoteEmpty = !note;
 
+    const isAdmin = user.roles ? user.roles.includes('admin') : false
+
     return (
       <TaskLayout>
         <h3> Single Task </h3>
@@ -180,12 +183,12 @@ class SingleTask extends Binder {
           (isTaskFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{ opacity: isTaskFetching ? 0.5 : 1 }}>
-            {//JSON.stringify(user)
-            }
-            {//JSON.stringify(selectedTask)
-            }
+            {/**JSON.stringify(user) */}
+            {/**JSON.stringify(selectedTask) */}
+            {isAdmin}
             {
-              user.roles.includes('admin') && selectedTask.complete && selectedTask.status === 'open' ?
+              
+              isAdmin && selectedTask.complete && selectedTask.status === 'open' ?
               <div>
                 <button onClick={() => this.handleTaskStatus('accepted')} className="yt-btn x-small" >Accept</button>
                 &nbsp;

@@ -119,7 +119,8 @@ app.use((req, res, next) => {
 passport.use('local', new LocalStrategy(
   function(username, password, done) {
     var projection = {
-      username: 1, password_salt: 1, password_hash: 1, roles: 1
+      username: 1, password_salt: 1, password_hash: 1,
+      //roles: 1
     }
     User.findOne({username:username}, projection).exec((err, user) => {
       if(user && user.authenticate(password)) {

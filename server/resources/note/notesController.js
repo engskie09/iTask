@@ -168,29 +168,21 @@ exports.getDefault = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  await User.findOne({apiToken: req.headers.token}).exec(async function(err, user) {
+  await Task.findById(req.body._task).exec(async function(err, task) {
     if(err) {
-      res.status(403);
-      res.send({success: false, message: "UNAUTHORIZED - INVALID TOKEN"});
+      res.status(404);
+      res.send({success: false, message: "NOT FOUND - INVALID TASK ID"});
     }
 
-    await Task.findById(req.body._task).exec(async function(err, task) {
-      if(err) {
-        res.status(404);
-        res.send({success: false, message: "NOT FOUND - INVALID TASK ID"});
-      }
+    const {_user, content} = req.body;
+    const _task = req.body._task
+    const _flow = task._flow
 
-      const {content} = req.body;
-      const _user = user._id
-      const _task = req.body._task
-      const _flow = task._flow
-
-      const note = new Note({_user, _task, _flow, content});
-      note.save();
-      
-      res.send({ success: true, message: 'Created note', note });
-    })
-  });
+    const note = new Note({_user, _task, _flow, content});
+    note.save();
+    
+    res.send({ success: true, message: 'Created note', note });
+  })
 }
 
 exports.update = (req, res) => {

@@ -63,10 +63,10 @@ class CreateNote extends Binder {
     this.setState({newState});
   }
 
-
   _handleFormSubmit(e) {
-    const { dispatch, history } = this.props;
+    const { dispatch, history, user } = this.props;
     e.preventDefault();
+    
     dispatch(noteActions.sendCreateNote(this.state.note)).then(noteRes => {
       if(noteRes.success) {
         dispatch(noteActions.invalidateList());
@@ -114,6 +114,7 @@ const mapStoreToProps = (store) => {
 
   return {
     defaultNote: store.note.defaultItem
+    , user: store.user.loggedIn.user
   }
 }
 
