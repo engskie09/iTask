@@ -24,7 +24,7 @@ const taskSchema = mongoose.Schema({
   , description:            { type: String }
   , name:                   { type: String, required: '{PATH} is required!' }
   , complete:               { type: Boolean, default: false }
-  , status:                 { type: String, enum: ["approved", "awaiting_approval", "open"], default: "open" }
+  , status:                 { type: String, default: "open" }
 
 });
 
